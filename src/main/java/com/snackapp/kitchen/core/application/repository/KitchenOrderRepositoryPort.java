@@ -1,4 +1,8 @@
 package com.snackapp.kitchen.core.application.repository;
 
-public class KitchenOrderRepositoryPort {
+
+import com.snackapp.kitchen.core.domain.model.KitchenOrder;
+
+public interface KitchenOrderRepositoryPort {
+    void saveIfAbsent(KitchenOrder order);
 }

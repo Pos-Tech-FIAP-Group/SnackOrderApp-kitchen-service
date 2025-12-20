@@ -1,4 +1,8 @@
 package com.snackapp.kitchen.core.domain.enums;
 
-public class KitchenOrderStatus {
+public enum KitchenOrderStatus {
+    RECEBIDO,
+    EM_PREPARACAO,
+    PRONTO,
+    FINALIZADO
 }
