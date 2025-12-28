@@ -7,9 +7,12 @@ services:
 
   dynamodb:
     image: amazon/dynamodb-local
-    command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /data"
     ports:
       - "8000:8000"
+    volumes:
+      - dynamodb_data:/data
 
   dynamodb-admin:
     image: aaronshaf/dynamodb-admin
@@ -22,3 +25,20 @@ services:
       - "8001:8001"
     depends_on:
       - dynamodb
+
+  dynamodb-init:
+    image: amazon/aws-cli
+    depends_on:
+      - dynamodb
+    environment:
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      AWS_DEFAULT_REGION: us-east-1
+      DYNAMODB_ENDPOINT: http://dynamodb:8000
+      DYNAMODB_TABLE: kitchen_orders
+    volumes:
+      - ./docker/dynamodb-init.sh:/init.sh
+    entrypoint: [ "/bin/sh", "/init.sh" ]
+
+volumes:
+  dynamodb_data:
