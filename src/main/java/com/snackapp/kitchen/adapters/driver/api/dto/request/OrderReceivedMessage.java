@@ -1,4 +1,4 @@
-package com.snackapp.kitchen.core.application.dto.request;
+package com.snackapp.kitchen.adapters.driver.api.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
