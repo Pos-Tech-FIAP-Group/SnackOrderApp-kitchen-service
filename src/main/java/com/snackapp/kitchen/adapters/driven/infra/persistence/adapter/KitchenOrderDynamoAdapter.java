@@ -40,16 +40,13 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
         entity.setStatus(order.getStatus().name());
         entity.setCreatedAt(order.getCreatedAt().toString());
 
-        try {
             table().putItem(PutItemEnhancedRequest.builder(KitchenOrderEntity.class)
                     .item(entity)
                     .conditionExpression(Expression.builder()
                             .expression("attribute_not_exists(orderId)")
                             .build())
                     .build());
-        } catch (ConditionalCheckFailedException ignored) {
 
-        }
     }
 
     @Override
