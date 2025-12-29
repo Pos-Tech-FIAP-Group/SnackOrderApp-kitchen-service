@@ -50,4 +50,32 @@ class KitchenOrderTest {
         assertThrows(InvalidStatusTransitionException.class,
                 () -> order.changeStatusTo(KitchenOrderStatus.EM_PREPARACAO));
     }
+
+    @Test
+    @DisplayName("Deve permitir transição de EM_PREPARACAO para PRONTO")
+    void changeStatus_validTransition_inPreparationToReady() {
+        KitchenOrder order = KitchenOrder.builder()
+                .orderId("1")
+                .status(KitchenOrderStatus.EM_PREPARACAO)
+                .createdAt(Instant.now())
+                .build();
+
+        KitchenOrder updated = order.changeStatusTo(KitchenOrderStatus.PRONTO);
+
+        assertEquals(KitchenOrderStatus.PRONTO, updated.getStatus());
+    }
+
+    @Test
+    @DisplayName("Deve permitir transição de PRONTO para FINALIZADO")
+    void changeStatus_validTransition_readyToFinalized() {
+        KitchenOrder order = KitchenOrder.builder()
+                .orderId("1")
+                .status(KitchenOrderStatus.PRONTO)
+                .createdAt(Instant.now())
+                .build();
+
+        KitchenOrder updated = order.changeStatusTo(KitchenOrderStatus.FINALIZADO);
+
+        assertEquals(KitchenOrderStatus.FINALIZADO, updated.getStatus());
+    }
 }
