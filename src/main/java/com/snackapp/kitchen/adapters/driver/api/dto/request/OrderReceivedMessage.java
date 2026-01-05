@@ -9,8 +9,8 @@ import java.util.List;
 @Data
 public class OrderReceivedMessage {
 
-    @NotBlank
-    private String orderId;
+    @NotNull
+    private Long orderId;
 
     @NotNull
     private List<Item> items;

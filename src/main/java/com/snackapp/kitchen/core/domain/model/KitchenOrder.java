@@ -12,7 +12,7 @@ import java.time.Instant;
 @Builder
 public class KitchenOrder {
 
-    String orderId;
+    Long orderId;
     KitchenOrderStatus status;
     Instant createdAt;
 

@@ -67,7 +67,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
     }
 
     @Override
-    public Optional<KitchenOrder> findById(String orderId) {
+    public Optional<KitchenOrder> findById(Long orderId) {
         KitchenOrderEntity entity = table().getItem(r -> r.key(k -> k.partitionValue(orderId)));
         if (entity == null) return Optional.empty();
 
@@ -79,7 +79,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
     }
 
     @Override
-    public void updateStatus(String orderId, KitchenOrderStatus newStatus) {
+    public void updateStatus(Long orderId, KitchenOrderStatus newStatus) {
         KitchenOrderEntity entity = table().getItem(r -> r.key(k -> k.partitionValue(orderId)));
         if (entity == null) {
             throw new IllegalArgumentException("Pedido não encontrado: " + orderId);

@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface KitchenOrderRepositoryPort {
     void saveIfAbsent(KitchenOrder order);
     List<KitchenOrder> findByStatus(KitchenOrderStatus status);
-    Optional<KitchenOrder> findById(String orderId);
-    void updateStatus(String orderId, KitchenOrderStatus newStatus);
+    Optional<KitchenOrder> findById(Long orderId);
+    void updateStatus(Long orderId, KitchenOrderStatus newStatus);
 }

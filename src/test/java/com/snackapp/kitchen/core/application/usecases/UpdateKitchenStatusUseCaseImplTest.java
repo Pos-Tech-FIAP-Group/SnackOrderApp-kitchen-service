@@ -20,14 +20,14 @@ class UpdateKitchenStatusUseCaseImplTest {
     @DisplayName("Deve retornar 404 (OrderNotFoundException) quando o pedido não existir")
     void shouldThrowNotFoundWhenOrderDoesNotExist() {
         KitchenOrderRepositoryPort repo = mock(KitchenOrderRepositoryPort.class);
-        when(repo.findById("x")).thenReturn(Optional.empty());
+        when(repo.findById(999999999L)).thenReturn(Optional.empty());
 
         UpdateKitchenStatusUseCaseImpl useCase = new UpdateKitchenStatusUseCaseImpl(repo);
 
         assertThrows(OrderNotFoundException.class,
-                () -> useCase.updateStatus("x", KitchenOrderStatus.EM_PREPARACAO));
+                () -> useCase.updateStatus(999999999L, KitchenOrderStatus.EM_PREPARACAO));
 
-        verify(repo, never()).updateStatus(anyString(), any());
+        verify(repo, never()).updateStatus(anyLong(), any());
     }
 
     @Test
@@ -36,19 +36,19 @@ class UpdateKitchenStatusUseCaseImplTest {
         KitchenOrderRepositoryPort repo = mock(KitchenOrderRepositoryPort.class);
 
         KitchenOrder current = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.RECEBIDO)
                 .createdAt(Instant.now())
                 .build();
 
-        when(repo.findById("1")).thenReturn(Optional.of(current));
+        when(repo.findById(1L)).thenReturn(Optional.of(current));
 
         UpdateKitchenStatusUseCaseImpl useCase = new UpdateKitchenStatusUseCaseImpl(repo);
 
         assertThrows(InvalidStatusTransitionException.class,
-                () -> useCase.updateStatus("1", KitchenOrderStatus.PRONTO));
+                () -> useCase.updateStatus(1L, KitchenOrderStatus.PRONTO));
 
-        verify(repo, never()).updateStatus(anyString(), any());
+        verify(repo, never()).updateStatus(anyLong(), any());
     }
 
     @Test
@@ -57,18 +57,18 @@ class UpdateKitchenStatusUseCaseImplTest {
         KitchenOrderRepositoryPort repo = mock(KitchenOrderRepositoryPort.class);
 
         KitchenOrder current = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.RECEBIDO)
                 .createdAt(Instant.now())
                 .build();
 
-        when(repo.findById("1")).thenReturn(Optional.of(current));
+        when(repo.findById(1L)).thenReturn(Optional.of(current));
 
         UpdateKitchenStatusUseCaseImpl useCase = new UpdateKitchenStatusUseCaseImpl(repo);
 
-        KitchenOrder updated = useCase.updateStatus("1", KitchenOrderStatus.EM_PREPARACAO);
+        KitchenOrder updated = useCase.updateStatus(1L, KitchenOrderStatus.EM_PREPARACAO);
 
-        verify(repo, times(1)).updateStatus("1", KitchenOrderStatus.EM_PREPARACAO);
+        verify(repo, times(1)).updateStatus(1L, KitchenOrderStatus.EM_PREPARACAO);
         assertEquals(KitchenOrderStatus.EM_PREPARACAO, updated.getStatus());
     }
 }
