@@ -3,18 +3,23 @@ package com.snackapp.kitchen.core.domain.model;
 
 import com.snackapp.kitchen.core.application.exception.InvalidStatusTransitionException;
 import com.snackapp.kitchen.core.domain.enums.KitchenOrderStatus;
+import com.snackapp.kitchen.core.domain.vo.KitchenOrderItem;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 import java.time.Instant;
+import java.util.List;
 
 @Value
 @Builder
+@Getter
 public class KitchenOrder {
 
     Long orderId;
     KitchenOrderStatus status;
     Instant createdAt;
+    List<KitchenOrderItem> itens;
 
 
     public KitchenOrder changeStatusTo(KitchenOrderStatus next) {
@@ -35,6 +40,7 @@ public class KitchenOrder {
                 .orderId(this.orderId)
                 .status(next)
                 .createdAt(this.createdAt)
+                .itens(this.itens)
                 .build();
     }
 }

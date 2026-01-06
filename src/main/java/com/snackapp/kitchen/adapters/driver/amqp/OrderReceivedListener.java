@@ -1,7 +1,7 @@
 package com.snackapp.kitchen.adapters.driver.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.snackapp.kitchen.adapters.driver.api.dto.request.OrderReceivedMessage;
+import com.snackapp.kitchen.adapters.driver.amqp.message.OrderToKitchenMessage;
 import com.snackapp.kitchen.core.application.usecases.ReceiveOrderUseCase;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderReceivedListener {
+public class OrderToKitchenMessage {
 
     private final ObjectMapper objectMapper;
     private final Validator validator;
@@ -38,7 +38,6 @@ public class OrderReceivedListener {
             receiveOrderUseCase.receive(dto);
 
         } catch (Exception e) {
-            log.error("Mensagem inválida. Rejeitando sem requeue.", e);
             throw new AmqpRejectAndDontRequeueException("Mensagem inválida", e);
         }
     }
