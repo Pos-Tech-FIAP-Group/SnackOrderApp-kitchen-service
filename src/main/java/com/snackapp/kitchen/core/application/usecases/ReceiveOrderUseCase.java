@@ -1,7 +1,7 @@
 package com.snackapp.kitchen.core.application.usecases;
 
-import com.snackapp.kitchen.adapters.driver.api.dto.request.OrderReceivedMessage;
+import com.snackapp.kitchen.core.application.command.ReceiveOrderCommand;
 
 public interface ReceiveOrderUseCase {
-    void receive(OrderReceivedMessage message);
+    void receive(ReceiveOrderCommand command);
 }
