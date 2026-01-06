@@ -1,7 +1,8 @@
 package com.snackapp.kitchen.adapters.driver.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.snackapp.kitchen.adapters.driver.api.dto.request.OrderReceivedMessage;
+import com.snackapp.kitchen.adapters.driver.amqp.message.OrderToKitchenMessage;
+import com.snackapp.kitchen.adapters.driver.amqp.mapper.OrderToKitchenMessageMapper;
 import com.snackapp.kitchen.core.application.usecases.ReceiveOrderUseCase;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
@@ -28,17 +29,16 @@ public class OrderReceivedListener {
         try {
             String payload = new String(message.getBody(), StandardCharsets.UTF_8);
 
-            OrderReceivedMessage dto = objectMapper.readValue(payload, OrderReceivedMessage.class);
+            OrderToKitchenMessage dto = objectMapper.readValue(payload, OrderToKitchenMessage.class);
 
             var violations = validator.validate(dto);
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);
             }
 
-            receiveOrderUseCase.receive(dto);
+            receiveOrderUseCase.receive(OrderToKitchenMessageMapper.toCommand(dto));
 
         } catch (Exception e) {
-            log.error("Mensagem inválida. Rejeitando sem requeue.", e);
             throw new AmqpRejectAndDontRequeueException("Mensagem inválida", e);
         }
     }

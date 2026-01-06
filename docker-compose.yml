@@ -36,6 +36,7 @@ services:
       AWS_DEFAULT_REGION: us-east-1
       DYNAMODB_ENDPOINT: http://dynamodb:8000
       DYNAMODB_TABLE: kitchen_orders
+      DYNAMODB_STATUS_INDEX: gsi_status_createdAt
     volumes:
       - ./docker/dynamodb-init.sh:/init.sh
     entrypoint: [ "/bin/sh", "/init.sh" ]
