@@ -18,7 +18,7 @@ class ReceiveOrderUseCaseImplTest {
         ReceiveOrderUseCaseImpl useCase = new ReceiveOrderUseCaseImpl(repo);
 
         OrderReceivedMessage msg = mock(OrderReceivedMessage.class);
-        when(msg.getOrderId()).thenReturn("9000");
+        when(msg.getOrderId()).thenReturn(9000L);
 
         useCase.receive(msg);
 
@@ -26,7 +26,7 @@ class ReceiveOrderUseCaseImplTest {
         verify(repo, times(1)).saveIfAbsent(captor.capture());
 
         KitchenOrder saved = captor.getValue();
-        assertEquals("9000", saved.getOrderId());
+        assertEquals(9000L, saved.getOrderId());
         assertEquals(KitchenOrderStatus.RECEBIDO, saved.getStatus());
         assertNotNull(saved.getCreatedAt());
     }

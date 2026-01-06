@@ -26,7 +26,7 @@ public class KitchenOrderController {
     }
 
     @PatchMapping("/{orderId}/status")
-    public KitchenOrder updateStatus(@PathVariable String orderId,
+    public KitchenOrder updateStatus(@PathVariable Long orderId,
                                      @RequestBody @Valid UpdateKitchenStatusRequest req) {
         KitchenOrderStatus newStatus;
         try {

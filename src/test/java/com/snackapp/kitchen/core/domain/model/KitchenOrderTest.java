@@ -15,14 +15,14 @@ class KitchenOrderTest {
     @DisplayName("Deve salvar pedido recebido como RECEBIDO de forma idempotente")
     void shouldAllowReceivedToInPreparation() {
         KitchenOrder order = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.RECEBIDO)
                 .createdAt(Instant.parse("2025-12-28T00:00:00Z"))
                 .build();
 
         KitchenOrder updated = order.changeStatusTo(KitchenOrderStatus.EM_PREPARACAO);
 
-        assertEquals("1", updated.getOrderId());
+        assertEquals(1L, updated.getOrderId());
         assertEquals(KitchenOrderStatus.EM_PREPARACAO, updated.getStatus());
         assertEquals(order.getCreatedAt(), updated.getCreatedAt());
     }
@@ -30,7 +30,7 @@ class KitchenOrderTest {
     @Test
     void shouldRejectInvalidTransition() {
         KitchenOrder order = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.RECEBIDO)
                 .createdAt(Instant.now())
                 .build();
@@ -42,7 +42,7 @@ class KitchenOrderTest {
     @Test
     void shouldRejectTransitionFromFinalized() {
         KitchenOrder order = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.FINALIZADO)
                 .createdAt(Instant.now())
                 .build();
@@ -55,7 +55,7 @@ class KitchenOrderTest {
     @DisplayName("Deve permitir transição de EM_PREPARACAO para PRONTO")
     void changeStatus_validTransition_inPreparationToReady() {
         KitchenOrder order = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.EM_PREPARACAO)
                 .createdAt(Instant.now())
                 .build();
@@ -69,7 +69,7 @@ class KitchenOrderTest {
     @DisplayName("Deve permitir transição de PRONTO para FINALIZADO")
     void changeStatus_validTransition_readyToFinalized() {
         KitchenOrder order = KitchenOrder.builder()
-                .orderId("1")
+                .orderId(1L)
                 .status(KitchenOrderStatus.PRONTO)
                 .createdAt(Instant.now())
                 .build();

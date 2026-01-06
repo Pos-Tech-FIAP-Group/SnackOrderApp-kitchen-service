@@ -21,7 +21,7 @@ class GetKitchenQueueUseCaseImplTest {
         GetKitchenQueueUseCaseImpl useCase = new GetKitchenQueueUseCaseImpl(repo);
 
         List<KitchenOrder> expected = List.of(
-                KitchenOrder.builder().orderId("1").status(KitchenOrderStatus.RECEBIDO).createdAt(Instant.now()).build()
+                KitchenOrder.builder().orderId(1L).status(KitchenOrderStatus.RECEBIDO).createdAt(Instant.now()).build()
         );
 
         when(repo.findByStatus(KitchenOrderStatus.RECEBIDO)).thenReturn(expected);

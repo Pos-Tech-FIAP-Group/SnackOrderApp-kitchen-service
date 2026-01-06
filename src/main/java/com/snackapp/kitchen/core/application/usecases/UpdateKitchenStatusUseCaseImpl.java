@@ -14,7 +14,7 @@ public class UpdateKitchenStatusUseCaseImpl implements UpdateKitchenStatusUseCas
     private final KitchenOrderRepositoryPort repository;
 
     @Override
-    public KitchenOrder updateStatus(String orderId, KitchenOrderStatus newStatus) {
+    public KitchenOrder updateStatus(Long orderId, KitchenOrderStatus newStatus) {
         KitchenOrder current = repository.findById(orderId)
                 .orElseThrow(() -> new OrderNotFoundException(orderId));
 

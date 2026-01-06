@@ -25,7 +25,7 @@ echo "Creating table $TABLE ..."
 aws dynamodb create-table \
   --table-name "$TABLE" \
   --attribute-definitions \
-    AttributeName=orderId,AttributeType=S \
+    AttributeName=orderId,AttributeType=N \
     AttributeName=status,AttributeType=S \
     AttributeName=createdAt,AttributeType=S \
   --key-schema AttributeName=orderId,KeyType=HASH \

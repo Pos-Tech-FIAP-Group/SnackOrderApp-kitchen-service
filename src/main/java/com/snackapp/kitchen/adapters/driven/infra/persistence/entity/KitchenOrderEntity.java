@@ -5,13 +5,13 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 @DynamoDbBean
 public class KitchenOrderEntity {
 
-    private String orderId;
+    private Long orderId;
     private String status;
     private String createdAt;
 
     @DynamoDbPartitionKey
-    public String getOrderId() { return orderId; }
-    public void setOrderId(String orderId) { this.orderId = orderId; }
+    public Long getOrderId() { return orderId; }
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
 
     @DynamoDbSecondaryPartitionKey(indexNames = {"gsi_status_createdAt"})
     public String getStatus() { return status; }
