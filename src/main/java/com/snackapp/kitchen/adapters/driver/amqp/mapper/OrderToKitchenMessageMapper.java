@@ -1,4 +1,4 @@
-package com.snackapp.kitchen.adapters.driver.amqp.message.mapper;
+package com.snackapp.kitchen.adapters.driver.amqp.mapper;
 
 
 import com.snackapp.kitchen.adapters.driver.amqp.message.OrderToKitchenMessage;

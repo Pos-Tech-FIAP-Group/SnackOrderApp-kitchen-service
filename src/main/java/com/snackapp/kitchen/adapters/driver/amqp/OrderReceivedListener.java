@@ -2,6 +2,7 @@ package com.snackapp.kitchen.adapters.driver.amqp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.snackapp.kitchen.adapters.driver.amqp.message.OrderToKitchenMessage;
+import com.snackapp.kitchen.adapters.driver.amqp.mapper.OrderToKitchenMessageMapper;
 import com.snackapp.kitchen.core.application.usecases.ReceiveOrderUseCase;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
@@ -17,7 +18,7 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderToKitchenMessage {
+public class OrderReceivedListener {
 
     private final ObjectMapper objectMapper;
     private final Validator validator;
@@ -28,14 +29,14 @@ public class OrderToKitchenMessage {
         try {
             String payload = new String(message.getBody(), StandardCharsets.UTF_8);
 
-            OrderReceivedMessage dto = objectMapper.readValue(payload, OrderReceivedMessage.class);
+            OrderToKitchenMessage dto = objectMapper.readValue(payload, OrderToKitchenMessage.class);
 
             var violations = validator.validate(dto);
             if (!violations.isEmpty()) {
                 throw new ConstraintViolationException(violations);
             }
 
-            receiveOrderUseCase.receive(dto);
+            receiveOrderUseCase.receive(OrderToKitchenMessageMapper.toCommand(dto));
 
         } catch (Exception e) {
             throw new AmqpRejectAndDontRequeueException("Mensagem inválida", e);
