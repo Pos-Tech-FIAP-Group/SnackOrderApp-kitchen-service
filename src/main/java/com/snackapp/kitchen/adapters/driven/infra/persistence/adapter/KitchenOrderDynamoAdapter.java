@@ -1,8 +1,7 @@
 package com.snackapp.kitchen.adapters.driven.infra.persistence.adapter;
 
-
-
 import com.snackapp.kitchen.adapters.driven.infra.persistence.entity.KitchenOrderEntity;
+import com.snackapp.kitchen.adapters.driven.infra.persistence.mapper.KitchenOrderPersistenceMapper;
 import com.snackapp.kitchen.core.application.repository.KitchenOrderRepositoryPort;
 import com.snackapp.kitchen.core.domain.enums.KitchenOrderStatus;
 import com.snackapp.kitchen.core.domain.model.KitchenOrder;
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.PutItemEnhancedRequest;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
-import software.amazon.awssdk.services.dynamodb.model.ConditionalCheckFailedException;
-import java.time.Instant;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +23,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
 
     @Value("${aws.dynamodb.table}")
     private String tableName;
+
     @Value("${aws.dynamodb.statusIndex}")
     private String statusIndexName;
 
@@ -35,10 +33,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
 
     @Override
     public void saveIfAbsent(KitchenOrder order) {
-        var entity = new KitchenOrderEntity();
-        entity.setOrderId(order.getOrderId());
-        entity.setStatus(order.getStatus().name());
-        entity.setCreatedAt(order.getCreatedAt().toString());
+        KitchenOrderEntity entity = KitchenOrderPersistenceMapper.toEntity(order);
 
             table().putItem(PutItemEnhancedRequest.builder(KitchenOrderEntity.class)
                     .item(entity)
@@ -46,7 +41,6 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
                             .expression("attribute_not_exists(orderId)")
                             .build())
                     .build());
-
     }
 
     @Override
@@ -58,11 +52,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
         return index.query(r -> r.queryConditional(cond))
                 .stream()
                 .flatMap(page -> page.items().stream())
-                .map(e -> KitchenOrder.builder()
-                        .orderId(e.getOrderId())
-                        .status(KitchenOrderStatus.valueOf(e.getStatus()))
-                        .createdAt(Instant.parse(e.getCreatedAt()))
-                        .build())
+                .map(KitchenOrderPersistenceMapper::toDomain)
                 .toList();
     }
 
@@ -71,11 +61,7 @@ public class KitchenOrderDynamoAdapter implements KitchenOrderRepositoryPort {
         KitchenOrderEntity entity = table().getItem(r -> r.key(k -> k.partitionValue(orderId)));
         if (entity == null) return Optional.empty();
 
-        return Optional.of(KitchenOrder.builder()
-                .orderId(entity.getOrderId())
-                .status(KitchenOrderStatus.valueOf(entity.getStatus()))
-                .createdAt(Instant.parse(entity.getCreatedAt()))
-                .build());
+        return Optional.of(KitchenOrderPersistenceMapper.toDomain(entity));
     }
 
     @Override
