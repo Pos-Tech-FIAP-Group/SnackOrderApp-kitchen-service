@@ -1,18 +1,17 @@
 name: CI
+
 on:
+  pull_request:
   push:
     branches: [ "main" ]
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -21,13 +20,15 @@ jobs:
           java-version: "21"
           cache: maven
 
-      - name: Grant execute permission for mvnw
-        run: chmod +x mvnw
+      - name: Build and tests (verify)
+        run: mvn -U clean verify
 
-      - name: Build, Test and Analyze
+      # SonarCloud: roda apenas se houver token disponível
+      - name: SonarCloud Analysis
+        if: ${{ env.SONAR_TOKEN != '' }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw -B verify sonar:sonar -Dsonar.projectKey=Pos-Tech-FIAP-Group_SnackOrderApp-kitchen-service
+        run: mvn -U sonar:sonar
 
   build-and-deploy-to-aws:
     runs-on: ubuntu-latest
