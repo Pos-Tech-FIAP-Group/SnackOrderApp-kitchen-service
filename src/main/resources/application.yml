@@ -8,10 +8,10 @@ spring:
         default-requeue-rejected: false
         retry:
           enabled: false
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
 
 aws:
   dynamodb:
@@ -25,3 +25,6 @@ aws:
 app:
   amqp:
     order-received-queue: kitchen.order.received
+
+
+
