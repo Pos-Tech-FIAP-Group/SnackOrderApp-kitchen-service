@@ -8,10 +8,10 @@ spring:
         default-requeue-rejected: false
         retry:
           enabled: false
-    host: ${SPRING_RABBITMQ_HOST:localhost}
-    port: ${SPRING_RABBITMQ_PORT:5672}
-    username: ${SPRING_RABBITMQ_USERNAME:guest}
-    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    host: b-1eb8fd25-2682-4942-8a3d-b7909ce8377b.mq.sa-east-1.on.aws
+    port: 5671
+    username: root
+    password: XC7rSd24EEnp
 
 aws:
   dynamodb:
