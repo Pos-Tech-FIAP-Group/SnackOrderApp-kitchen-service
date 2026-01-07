@@ -3,15 +3,16 @@ FROM maven:3.9.6-eclipse-temurin-21 AS builder
 
 WORKDIR /app
 
-COPY .mvn/ .mvn/
-COPY mvnw ./
-RUN chmod +x mvnw
+COPY pom.xml .
+COPY src ./src
+
+RUN mvn -U -DskipTests clean package
 
 COPY pom.xml .
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 COPY src ./src
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Etapa 2 - Rodar app com imagem leve
 FROM eclipse-temurin:21-jre-alpine
