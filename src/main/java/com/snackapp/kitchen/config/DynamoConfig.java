@@ -8,6 +8,7 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
+import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 
 import java.net.URI;
 
@@ -16,18 +17,25 @@ public class DynamoConfig {
 
     @Bean
     public DynamoDbClient dynamoDbClient(
-            @Value("${aws.dynamodb.endpoint}") String endpoint,
-            @Value("${aws.dynamodb.region}") String region,
-            @Value("${aws.dynamodb.accessKey}") String accessKey,
-            @Value("${aws.dynamodb.secretKey}") String secretKey
+            @Value("${aws.dynamodb.endpoint:}") String endpoint,
+            @Value("${aws.dynamodb.region}") String region
     ) {
-        return DynamoDbClient.builder()
-                .endpointOverride(URI.create(endpoint))
-                .region(Region.of(region))
-                .credentialsProvider(
-                        StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey))
-                )
-                .build();
+        DynamoDbClientBuilder builder = DynamoDbClient.builder()
+                .region(Region.of(region));
+
+        // Só adiciona endpoint override se estiver configurado (local)
+        if (endpoint != null && !endpoint.isEmpty()) {
+            builder.endpointOverride(URI.create(endpoint));
+            // Para local, use credenciais dummy
+            builder.credentialsProvider(
+                    StaticCredentialsProvider.create(
+                            AwsBasicCredentials.create("dummy", "dummy")
+                    )
+            );
+        }
+        // Para AWS, usa IAM Role automaticamente (não precisa configurar credenciais)
+
+        return builder.build();
     }
 
     @Bean

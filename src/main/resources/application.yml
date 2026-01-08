@@ -8,10 +8,10 @@ spring:
         default-requeue-rejected: false
         retry:
           enabled: false
-    host: b-1eb8fd25-2682-4942-8a3d-b7909ce8377b.mq.sa-east-1.on.aws
-    port: 5671
-    username: root
-    password: XC7rSd24EEnp
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 aws:
   dynamodb:
@@ -25,6 +25,4 @@ aws:
 app:
   amqp:
     order-received-queue: kitchen.order.received
-
-
 
