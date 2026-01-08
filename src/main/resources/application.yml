@@ -15,10 +15,7 @@ spring:
 
 aws:
   dynamodb:
-    endpoint: http://localhost:8000
-    region: us-east-1
-    accessKey: dummy
-    secretKey: dummy
+    region: sa-east-1
     table: kitchen_orders
     statusIndex: gsi_status_createdAt
 
