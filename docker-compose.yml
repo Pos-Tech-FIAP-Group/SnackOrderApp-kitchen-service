@@ -41,5 +41,6 @@ services:
       - ./docker/dynamodb-init.sh:/init.sh
     entrypoint: [ "/bin/sh", "/init.sh" ]
 
+
 volumes:
   dynamodb_data:
