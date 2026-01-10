@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "fe68c64e-83ee-4f6d-90d4-b90aacfb44e5",
+		"name": "Snack Bar API - V4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "544293"
+	},
+	"item": [
+		{
+			"name": "kitchen",
+			"item": [
+				{
+					"name": "Search Order",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"EM_PREPARACAO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/kitchen/orders/pedido-9000/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"kitchen",
+								"orders",
+								"pedido-9000",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
