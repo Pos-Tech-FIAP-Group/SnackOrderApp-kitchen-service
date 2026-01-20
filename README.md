@@ -9,7 +9,8 @@ Microserviço responsável por **processar pedidos da cozinha**, consumindo mens
 [![CI](https://github.com/Pos-Tech-FIAP-Group/SnackOrderApp-kitchen-service/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Pos-Tech-FIAP-Group/SnackOrderApp-kitchen-service/actions/workflows/pipeline.yml)
 ![AWS ECS](https://img.shields.io/badge/ECS-Fargate-blue?logo=amazon-aws)
 ![Docker](https://img.shields.io/badge/Docker-ready-blue?logo=docker)
-![Coverage](https://img.shields.io/badge/Coverage-placeholder-lightgrey)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Pos-Tech-FIAP-Group_SnackOrderApp-kitchen-service&metric=alert_status&token=2f86f71ce9b1573a1035a0dbf242c44cfd738feb)](https://sonarcloud.io/summary/new_code?id=Pos-Tech-FIAP-Group_SnackOrderApp-kitchen-service)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Pos-Tech-FIAP-Group_SnackOrderApp-kitchen-service&metric=coverage&token=2f86f71ce9b1573a1035a0dbf242c44cfd738feb)](https://sonarcloud.io/summary/new_code?id=Pos-Tech-FIAP-Group_SnackOrderApp-kitchen-service)
 
 ---
 
